@@ -1,19 +1,32 @@
 package br.com.lojaonline.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.lojaonlinebackend.daoimpl.CategoryDAOImpl;
+import br.com.lojaonlinebackend.dto.Category;
+
+
+
+
 @Controller
 public class PageController {
+	
+	@Autowired
+	private CategoryDAOImpl categoryDAO;
 
 	@RequestMapping(value={"/","/home","/index"})
 	public ModelAndView index(){
 		
 		ModelAndView mv = new ModelAndView("page"); 
 		mv.addObject("title", "Home");
+		
+		//passando a lista de categorias 
+		mv.addObject("categories", categoryDAO.list());
 		mv.addObject("userClickHome", true);
 		
 		return mv;
@@ -40,9 +53,43 @@ public class PageController {
 		return mv;
 	}
 	
+	//Method to load all the products
+	@RequestMapping(value="/show/all/products")
+	public ModelAndView showAllProducts(){
+		
+		ModelAndView mv = new ModelAndView("page"); 
+		mv.addObject("title", "All Products");
+		
+		//passando a lista de categorias 
+		mv.addObject("categories", categoryDAO.list());
+		mv.addObject("userClickAllProducts", true);
+		
+		return mv;
+	}
 	
 	
+	@RequestMapping(value="/show/category/{id}/products")
+	public ModelAndView showCategoryProducts(@PathVariable("id") int id){
+		
+		ModelAndView mv = new ModelAndView("page"); 
+		
+		// recebendo a categoria 
+		Category category = null;
+		category = categoryDAO.get(id);
+			
+		mv.addObject("title", category.getName());
+		
+		//retornando a categoria
+		mv.addObject("category", category);
+		
+		//passando a lista de categorias 
+		mv.addObject("categories", categoryDAO.list());
+		mv.addObject("userClickCategoryProducts", true);
+		
+		return mv;
+	}
 	
+	/*
 	@RequestMapping(value="/test")
 	public ModelAndView test(@RequestParam(value="greeting", required=false)String greeting) {
 		if(greeting == null) {
@@ -62,4 +109,6 @@ public class PageController {
 		mv.addObject("greeting", greeting);
 		return mv;
 	}
+	
+	*/
 }

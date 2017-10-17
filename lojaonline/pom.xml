@@ -16,6 +16,13 @@
 
 	<dependencies>
 
+		<!-- Linking to the backend Project (lojaonline Project) -->
+		<dependency>
+			<groupId>br.com</groupId>
+			<artifactId>lojaonlinebackend</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 
 		<!-- JAVA EE API -->
 		<dependency>
@@ -40,11 +47,11 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-	<dependency>
-    <groupId>javax.servlet</groupId>
-    <artifactId>jstl</artifactId>
-    <version>1.2</version>
-</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
 
 
 
