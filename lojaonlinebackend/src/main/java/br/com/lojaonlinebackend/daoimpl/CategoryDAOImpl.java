@@ -1,69 +1,89 @@
 package br.com.lojaonlinebackend.daoimpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.lojaonlinebackend.dao.CategoryDAO;
 import br.com.lojaonlinebackend.dto.Category;
 
 @Repository("categoryDAO")
+@Transactional
 public class CategoryDAOImpl implements CategoryDAO {
 
-	private static List<Category> categories = new ArrayList<>();
+	@Autowired
+	private SessionFactory sessionFactory;
 
-	static {
 
-		//adding the first category
-		Category category = new Category();
-
-		category.setId(1);
-		category.setName("Televison");
-		category.setDescription("This is some desciption for television");
-		category.setImageURL("CAT_1.png");
-
-		categories.add(category);
-
-		//second category
-		category = new Category();
-
-		category.setId(2);
-		category.setName("Mobile");
-		category.setDescription("This is some desciption for Mobile");
-		category.setImageURL("CAT_2.png");
-
-		
-		categories.add(category);
-
-		//third category
-		
-		category = new Category();
-
-		category.setId(3);
-		category.setName("Laptop");
-		category.setDescription("This is some desciption for Laptop");
-		category.setImageURL("CAT_3.png");
-
-		
-		categories.add(category);
-
-	}
-
+	//Listando todas as Categorias ativas
+	
 	@Override
 	public List<Category> list() {
-		return categories;
+		
+		String selectActiveCategory = "FROM Category WHERE active = :active";
+		Query query = sessionFactory.getCurrentSession().createQuery(selectActiveCategory);
+		query.setParameter("active", true);
+		
+		return query.getResultList();
 	}
 
+	// Busca no banco uma categoria pelo código
+	
 	@Override
 	public Category get(int id) {
 		
-		for(Category category: categories) {
-			
-			if(category.getId() == id) return category;
+		Category category = sessionFactory.getCurrentSession().get(Category.class, Integer.valueOf(id));
+		
+		return category;
+	}
+
+	//Adiciona uma categoria à base de dados
+	@Override
+	public boolean add(Category category) {
+		
+		try {
+			//adiciona a categoria ao banco de dados
+			sessionFactory.getCurrentSession().persist(category);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 		
-		return null;
 	}
+
+	@Override
+	public boolean update(Category category) {
+		
+		
+		try {
+			sessionFactory.getCurrentSession().update(category);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	
+	}
+
+	@Override
+	public boolean delete(Category category) {
+		
+		category.setActive(false);
+		
+		try {
+			sessionFactory.getCurrentSession().update(category);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
 
 }

@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.lojaonlinebackend.dao.CategoryDAO;
 import br.com.lojaonlinebackend.daoimpl.CategoryDAOImpl;
 import br.com.lojaonlinebackend.dto.Category;
 
@@ -17,7 +17,7 @@ import br.com.lojaonlinebackend.dto.Category;
 public class PageController {
 	
 	@Autowired
-	private CategoryDAOImpl categoryDAO;
+	private CategoryDAO categoryDAO;
 
 	@RequestMapping(value={"/","/home","/index"})
 	public ModelAndView index(){
