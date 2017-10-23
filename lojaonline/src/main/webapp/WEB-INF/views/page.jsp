@@ -25,6 +25,8 @@
 
 <script>
 	window.menu = '${title}';
+	
+	window.contextRoot = '${contextRoot}';
 </script>
 
 <!-- Bootstrap core CSS -->
@@ -33,6 +35,9 @@
 
 <!-- Custom styles for this template -->
 <link href="${css}/myapp.css" rel="stylesheet">
+
+<!-- Incluindo DataTable css -->
+<link href="${css}/dataTables.bootstrap4.css" rel="stylesheet">
 
 </head>
 
@@ -79,6 +84,7 @@
 		<script src="${js}/popper.min.js"></script>
 		<script src="${js}/bootstrap.min.js"></script>
 		<script src="${js}/jquery.dataTables.js"></script>
+		<script src="${js}/dataTables.bootstrap4.js"></script>
 		<script src="${js}/myapp.js"></script>
 
 	</div>
