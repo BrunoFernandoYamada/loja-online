@@ -26,7 +26,7 @@ public class CategoryTestCase {
 		categoryDAO = (CategoryDAO) context.getBean("categoryDAO");
 	}
 	
-	/*@Test
+	@Test
 	public void testAddCategory() {
 		category = new Category();
 		
@@ -37,7 +37,7 @@ public class CategoryTestCase {
 		assertEquals("Successfuly added a category inside the table", true, categoryDAO.add(category));
 	}
 	
-
+/*
 	
 	@Test
 	public void testGetCategory() {
@@ -66,9 +66,9 @@ public class CategoryTestCase {
 		assertEquals("Successfuly deleted a category from the table", true, categoryDAO.delete(category));
 	}*/
 	
-	@Test
+	/*@Test
 	public void testLisCategory() {
 
 		assertEquals("Successfuly fetched the list of category from the table", 2, categoryDAO.list().size());
-	}
+	}*/
 }
