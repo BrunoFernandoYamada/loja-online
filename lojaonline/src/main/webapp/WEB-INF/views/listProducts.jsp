@@ -57,7 +57,7 @@
 						<thead>
 
 							<tr>
-
+								<th></th>
 								<th>Nome</th>
 								<th>Marca</th>
 								<th>Preço</th>
@@ -69,7 +69,7 @@
 						<tfoot>
 
 							<tr>
-
+								<th></th>							
 								<th>Nome</th>
 								<th>Marca</th>
 								<th>Preço</th>

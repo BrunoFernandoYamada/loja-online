@@ -39,6 +39,9 @@
 <!-- Incluindo DataTable css -->
 <link href="${css}/dataTables.bootstrap4.css" rel="stylesheet">
 
+<!-- Glyphicons css for bootstrap 4 -->
+<link href="${css}/glyphicons.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -67,9 +70,14 @@
 				<%@include file="contact.jsp"%>
 			</c:if>
 			
-			<!-- Loading products page -->
+			<!-- Load only when user clicks View products -->
 			<c:if test="${userClickAllProducts == true or userClickCategoryProducts == true}">
 				<%@include file="listProducts.jsp" %>
+			</c:if>
+			
+			<!-- Load only when user clicks show product -->
+			<c:if test="${userClickShowProduct == true}">
+				<%@include file="singleProduct.jsp" %>
 			</c:if>
 
 		</div>
