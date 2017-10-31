@@ -13,7 +13,7 @@
    http://www.springframework.org/schema/mvc/spring-mvc.xsd
    ">
 
-	<context:component-scan base-package="br.com.lojaonline.controller"/>
+	<context:component-scan base-package="br.com.lojaonline"/>
 	<context:component-scan base-package="br.com.lojaonlinebackend"/>
 					
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
