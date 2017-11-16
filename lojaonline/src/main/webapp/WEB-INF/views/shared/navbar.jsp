@@ -18,6 +18,8 @@
 					href="${contextRoot}/contact">Contato</a></li>
 				<li id="listProducts" class="nav-item"><a class="nav-link"
 					href="${contextRoot}/show/all/products">Produtos</a></li>
+				<li id="manageProducts" class="nav-item"><a class="nav-link"
+					href="${contextRoot}/manage/products">Gerenciar Produtos</a></li>
 			</ul>
 		</div>
 	</div>
