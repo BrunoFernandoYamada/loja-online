@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,13 +68,31 @@ public class ManagementController {
 		return mv;
 	}
 
+	@RequestMapping(value = "/{id}/products", method = RequestMethod.GET)
+	public ModelAndView showEditProducts(@PathVariable int id) {
+		ModelAndView mv = new ModelAndView("page");
+		mv.addObject("userClickManageProducts", true);
+		mv.addObject("title", "ManageProducts");
+		// fetch the product from the database
+		Product nproduct = productDAO.get(id);
+		// set the product fetch from database
+		mv.addObject("product", nproduct);
+
+		return mv;
+	}
+
 	// handing product subission
 	@RequestMapping(value = "/products", method = RequestMethod.POST)
 	public String handleProductSubmission(@Valid @ModelAttribute("product") Product mProduct, BindingResult results,
 			Model model, HttpServletRequest request) {
 
-		new ProductValidator().validate(mProduct, results);
-
+		if (mProduct.getId() == 0) {
+			new ProductValidator().validate(mProduct, results);
+		}else {
+			if(!mProduct.getFile().getOriginalFilename().equals("")) {
+				new ProductValidator().validate(mProduct, results);
+			}
+		}
 		// check if there are any errors
 		if (results.hasErrors()) {
 
@@ -85,7 +104,13 @@ public class ManagementController {
 
 		logger.info(mProduct.toString());
 
-		productDAO.add(mProduct);
+		if (mProduct.getId() == 0) {
+			// create a new product record is id is 0
+			productDAO.add(mProduct);
+		} else {
+			// update peoduct if id is not 0
+			productDAO.update(mProduct);
+		}
 
 		if (!mProduct.getFile().getOriginalFilename().equals("")) {
 			FileUploadUtility.uploadFile(request, mProduct.getFile(), mProduct.getCode());
@@ -93,19 +118,20 @@ public class ManagementController {
 
 		return "redirect:/manage/products?operation=product";
 	}
-	
-	@RequestMapping(value="/product/{id}/activation",method=RequestMethod.POST)
+
+	@RequestMapping(value = "/product/{id}/activation", method = RequestMethod.POST)
 	@ResponseBody
 	public String handleProductActivation(@PathVariable int id) {
 		// recebendo produto da base de dados
 		Product product = productDAO.get(id);
 		boolean isActive = product.isActive();
-		//ativando e desativando o produto baseado no valor atual do campo
+		// ativando e desativando o produto baseado no valor atual do campo
 		product.setActive(!product.isActive());
-		//atualizando o produto com o novo valor
+		// atualizando o produto com o novo valor
 		productDAO.update(product);
-		
-		return (isActive)? "Você desativou o produto com id "+ product.getId() : "Você ativou o produto com id "+ product.getId();
+
+		return (isActive) ? "Você desativou o produto com id " + product.getId()
+				: "Você ativou o produto com id " + product.getId();
 	}
 
 	// returning categories for all the request mapping
