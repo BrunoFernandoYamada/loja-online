@@ -63,6 +63,9 @@ public class ManagementController {
 			if (operation.equals("product")) {
 				mv.addObject("message", "O Produto foi salvo com sucesso!");
 			}
+			else if(operation.equals("category")){
+				mv.addObject("message", "A Categoria foi salva com sucesso!" );
+			}
 		}
 
 		return mv;
@@ -133,12 +136,28 @@ public class ManagementController {
 		return (isActive) ? "Você desativou o produto com id " + product.getId()
 				: "Você ativou o produto com id " + product.getId();
 	}
+	
+	
+	//to handle Category submission
+	@RequestMapping(value="/category", method=RequestMethod.POST)
+	public String handleCategorySubmission(@ModelAttribute Category category) {
+		
+		categoryDAO.add(category);
+		
+		return "redirect:/manage/products?operation=category";
+	}
+	
 
 	// returning categories for all the request mapping
 	@ModelAttribute("categories")
 	public List<Category> getCategories() {
 
 		return categoryDAO.list();
+	}
+	
+	@ModelAttribute("category")
+	public Category getCategory() {
+		return new Category();
 	}
 
 }
